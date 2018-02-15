@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 let browser;
+
 function log(message) {
     const date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
     console.log(`LOG [${date}] ${message}`);
@@ -9,22 +10,21 @@ function log(message) {
 const { username, password } =
     JSON.parse(fs.readFileSync('./secret.json').toString('utf8'));
 
-(async () => {
-    opts = {
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: false,
-    };
-    browser = await puppeteer.launch(opts);
-})();
+process.on('SIGINT', async () => {
+    log('Received SIGINT. Good bye!');
+    await browser.close();
+    process.exit(0);
+});
 
+// function for login to irccloud.com
 async function login(username, password) {
     const page = await browser.newPage();
 
     const URL = 'https://www.irccloud.com/';
-    log('navigating to irccloud...');
+    log('Navigating to irccloud...');
     await page.goto(URL, { timeout: 0 });
 
-    log('typing the credential...');
+    log('Trying to login...');
     await page.waitForSelector('p.form>input[name=email]');
     await page.waitForSelector('p.form>input[name=password]');
     await page.waitForSelector('p.form>button[type=submit]');
@@ -34,5 +34,18 @@ async function login(username, password) {
 
     await page.click('p.form>button[type=submit]');
 
+    await page.waitForNavigation();
+    log('Login done!');
+
     return page;
 }
+
+// main
+(async () => {
+    opts = {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,
+    };
+    browser = await puppeteer.launch(opts);
+    await login(username, password);
+})();
