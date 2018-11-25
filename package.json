@@ -12,6 +12,6 @@
   "author": "Jae Hyeon Park",
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "^1.0.0"
+    "puppeteer": "^1.10.0"
   }
 }
