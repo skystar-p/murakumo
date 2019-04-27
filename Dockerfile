@@ -1,11 +1,8 @@
-FROM node:11-alpine
+FROM buildkite/puppeteer:v1.15.0
 
 WORKDIR /app
 
 COPY package.json ./
-COPY package-lock.json ./
-RUN npm install
-
 COPY main.js ./
 
 CMD npm start
