@@ -7,8 +7,8 @@ Inspired by [simnalamburt's cloudkeeper](https://github.com/simnalamburt/cloudke
 
 ```bash
 vim secret.json # see secret.json.example
-npm install
-npm start
+yarn install
+yarn start
 ```
 
 Based on [puppeteer](https://github.com/GoogleChrome/puppeteer). Maybe you have to install Chrome dependencies!
