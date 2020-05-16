@@ -7,6 +7,7 @@ Inspired by [simnalamburt's cloudkeeper](https://github.com/simnalamburt/cloudke
 
 ```bash
 vim secret.json # see secret.json.example
+chmod 400 secret.json
 yarn install
 yarn start
 ```
